@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EducationController;
 use Illuminate\Support\Facades\Response;
@@ -15,6 +16,13 @@ Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
 Route::get('/login', [LoginController::class, 'loginForm'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'login'])->middleware('guest');
 Route::get('/dashboard', [LoginController::class, 'dashboard'])->middleware('auth');
+
+Route::get('/users/list', [UserController::class, 'list'])->middleware('auth');
+Route::get('/users/delete/{user:id}', [UserController::class, 'delete'])->where('user', '[0-9]+')->middleware('auth');
+Route::get('/users/add', [UserController::class, 'addForm'])->middleware('auth');
+Route::post('/users/add', [UserController::class, 'add'])->middleware('auth');
+Route::get('/users/edit/{user:id}', [UserController::class, 'editForm'])->where('user', '[0-9]+')->middleware('auth');
+Route::post('/users/edit/{user:id}', [UserController::class, 'edit'])->where('user', '[0-9]+')->middleware('auth');
 
 Route::get('/projects/list', [ProjectController::class, 'list'])->middleware('auth');
 Route::get('/projects/add', [ProjectController::class, 'addForm'])->middleware('auth');
