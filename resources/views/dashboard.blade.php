@@ -31,7 +31,7 @@
 
             <ul id="dashboard">
                 <li><a href="/projects/list">Manage Projects</a></li>
-                <li><a href="/educations/list">Manage Types</a></li>
+                <li><a href="/educations/list">Manage Educations</a></li>
                 <li><a href="/experiences/list">Manage Experience</a></li>
                 <li><a href="/skills/list">Manage Skills</a></li>
                 <li><a href="/users/list">Manage User</a></li>
