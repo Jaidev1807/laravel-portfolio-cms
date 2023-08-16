@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -36,7 +37,7 @@ class UserController extends Controller
         $user = new User();
         $user->name = $attributes['name'];
         $user->email = $attributes['email'];
-        $user->password = $attributes['password'];
+        $user->password = Hash::make($attributes['password']);
         $user->save();
 
         return redirect('/users/list')
