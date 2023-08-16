@@ -27,19 +27,31 @@ Route::get('/skills', function(){
     return $skills;
 
 });
+
+Route::get('/skills/{skills?}', function(Skill $skills){
+    return $skills;
+});
+
 Route::get('/educations', function(){
 
     $educations = Education::orderBy('institution')->get();
     return $educations;
 
 });
-Route::get('/experiences', function(){
 
-    $experiences = Experience::orderBy('company')->get();
-    return $experiences;
-
+Route::get('/educations/{educations?}', function(Education $educations){
+    return $educations;
 });
 
+Route::get('/experiences', function(){
+    $experiences = Experience::orderBy('company')->get();
+    return $experiences;
+});
+
+Route::get('/experiences/{experiences?}', function(Experience $experiences){
+    $experiences = Experience::orderBy('company')->get();
+    return $experiences;
+});
 
 Route::get('/projects', function(){
 
@@ -57,14 +69,14 @@ Route::get('/projects', function(){
 
 });
 
-Route::get('/projects/{project?}', function(Project $project){
+Route::get('/projects/{projects?}', function(Project $projects){
 
-    if($project['image'])
+    if($projects['image'])
     {
-        $project['image'] = env('APP_URL').'storage/'.$project['image'];
+        $projects['image'] = env('APP_URL').'storage/'.$projects['image'];
     }
 
-    return $project;
+    return $projects;
 
 });
 
