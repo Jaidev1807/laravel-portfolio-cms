@@ -1,7 +1,7 @@
 ## Project By
 
--   Jaidev Patel <a href="https://github.com/Jaidev1807">
--   Akul Patel <a href="https://github.com/Akul16">
+-   [Jaidev Patel](https://github.com/Jaidev1807)
+-   [Akul Patel](https://github.com/Akul16)
 -   [Dhaval Shah](https://github.com/mi11dc)
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
