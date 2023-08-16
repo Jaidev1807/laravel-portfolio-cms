@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Skill;
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Education;
+use App\Models\Experience;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,6 +27,19 @@ Route::get('/skills', function(){
     return $skills;
 
 });
+Route::get('/educations', function(){
+
+    $educations = Education::orderBy('institution')->get();
+    return $educations;
+
+});
+Route::get('/experiences', function(){
+
+    $experiences = Experience::orderBy('company')->get();
+    return $experiences;
+
+});
+
 
 Route::get('/projects', function(){
 
@@ -39,6 +54,17 @@ Route::get('/projects', function(){
     }
 
     return $projects;
+
+});
+
+Route::get('/projects/{project?}', function(Project $project){
+
+    if($project['image'])
+    {
+        $project['image'] = env('APP_URL').'storage/'.$project['image'];
+    }
+
+    return $project;
 
 });
 
