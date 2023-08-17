@@ -22,13 +22,17 @@ Route::middleware('auth:sanctum')->get('/users', function (Request $request) {
 });
 
 Route::get('/skills', function(){
-
     $skills = Skill::orderBy('name')->get();
+    foreach($skills as $key => $value)
+    {
+        $skills[$key]['user'] = User::where('id', $value['user_id'])->first();
+    }
     return $skills;
 
 });
 
 Route::get('/skills/{skills?}', function(Skill $skills){
+    $skills[$key]['user'] = User::where('id', $skills['id'])->first();
     return $skills;
 });
 

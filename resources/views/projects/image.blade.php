@@ -16,7 +16,7 @@
     <h1 class="w3-text-red">Portfolio Console</h1>
 
     <?php if(Auth::check()): ?>
-        You are logged in as <?= auth()->user()->first ?> <?= auth()->user()->last ?> | 
+        You are logged in as <?= auth()->user()->name ?> | 
         <a href="/logout">Log Out</a> | 
         <a href="/dashboard">Dashboard</a> | 
         <a href="/">Website Home Page</a>
