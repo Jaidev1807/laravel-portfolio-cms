@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use Illuminate\Support\Facades\Storage;
@@ -11,17 +11,17 @@ class ProjectController extends Controller
 {
     public function list()
     {
-        return view('projects.list', ['projects' => Project::all()]);
+        $projects = Project::where('user_id', Auth::id())->get();
+        return view('projects.list', ['projects' => $projects]);
     }
+
     public function addForm()
     {
-
         return view('projects.add');
     }
-    
+
     public function add()
     {
-
         $attributes = request()->validate([
             'title' => 'required',
             'description' => 'required',
@@ -32,6 +32,7 @@ class ProjectController extends Controller
         $project->title = $attributes['title'];
         $project->description = $attributes['description'];
         $project->link = $attributes['link'];
+        $project->user_id = Auth::id(); // Associate project with the logged-in user
         $project->save();
 
         return redirect('/projects/list')
@@ -47,7 +48,6 @@ class ProjectController extends Controller
 
     public function edit(Project $project)
     {
-
         $attributes = request()->validate([
             'title' => 'required',
             'description' => 'required',
@@ -64,11 +64,10 @@ class ProjectController extends Controller
             ->with('message', 'Project has been edited!');
     }
 
-
     public function delete(Project $project)
     {
         $project->delete();
-        return redirect('/projects/list')->with('success', 'project deleted successfully.');
+        return redirect('/projects/list')->with('success', 'Project deleted successfully.');
     }
 
     public function imageForm(Project $project)
@@ -80,18 +79,17 @@ class ProjectController extends Controller
 
     public function image(Project $project)
     {
-
         $attributes = request()->validate([
             'image' => 'required|image',
         ]);
 
         Storage::delete($project->image);
-        
+
         $path = request()->file('image')->store('projects');
 
         $project->image = $path;
         $project->save();
-        
+
         return redirect('/projects/list')
             ->with('message', 'Project image has been edited!');
     }

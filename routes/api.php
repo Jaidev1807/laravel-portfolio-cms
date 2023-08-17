@@ -21,34 +21,53 @@ Route::middleware('auth:sanctum')->get('/users', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:sanctum')->get('/users', function (Request $request) {
+    return $request->user();
+});
+
+// -----------------Skills------------------------- 
+
 Route::get('/skills', function(){
     $skills = Skill::orderBy('name')->get();
-    foreach($skills as $key => $value)
-    {
-        $skills[$key]['user'] = User::where('id', $value['user_id'])->first();
-    }
     return $skills;
 
 });
+
+Route::get('/skills/user/{user}', function(User $user){
+    $skills = Skill::where('user_id', $user->id)->orderBy('name')->get();
+    return $skills;
+});
+
 
 Route::get('/skills/{skills?}', function(Skill $skills){
     $skills[$key]['user'] = User::where('id', $skills['id'])->first();
     return $skills;
 });
 
+// ----------------educations--------------------------------
 Route::get('/educations', function(){
 
     $educations = Education::orderBy('institution')->get();
     return $educations;
 
 });
-
+Route::get('/educations/user/{user}', function(User $user){
+    $educations = Education::where('user_id', $user->id)->orderBy('institution')->get();
+    return $educations;
+});
 Route::get('/educations/{educations?}', function(Education $educations){
     return $educations;
 });
 
+//------------------------experience--------------------------
+
 Route::get('/experiences', function(){
     $experiences = Experience::orderBy('company')->get();
+    return $experiences;
+});
+
+Route::get('/experiences/user/{user}', function(User $user){
+    $experiences = Experience::where('user_id', $user->id)->orderBy('company')->get();
     return $experiences;
 });
 
@@ -57,6 +76,7 @@ Route::get('/experiences/{experiences?}', function(Experience $experiences){
     return $experiences;
 });
 
+//-------------------- Projects -----------------------------
 Route::get('/projects', function(){
 
     $projects = Project::orderBy('created_at')->get();
@@ -73,6 +93,11 @@ Route::get('/projects', function(){
 
 });
 
+Route::get('/projects/user/{user}', function(User $user){
+    $projects = Project::where('user_id', $user->id)->orderBy('name')->get();
+    return $projects;
+});
+
 Route::get('/projects/{projects?}', function(Project $projects){
 
     if($projects['image'])
@@ -81,7 +106,7 @@ Route::get('/projects/{projects?}', function(Project $projects){
     }
 
     return $projects;
-
 });
+
 
 

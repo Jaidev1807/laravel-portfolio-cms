@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Skill;
 
@@ -9,17 +9,17 @@ class SkillController extends Controller
 {
     public function list()
     {
-        return view('skills.list', ['skills' => Skill::all()]);
+        $skills = SKill::where('user_id', Auth::id())->get();
+        return view('skills.list', ['skills' => $skillss]);
     }
+
     public function addForm()
     {
-
         return view('skills.add');
     }
-    
+
     public function add()
     {
-
         $attributes = request()->validate([
             'name' => 'required',
             'description' => 'required',
@@ -28,10 +28,11 @@ class SkillController extends Controller
         $skill = new Skill();
         $skill->name = $attributes['name'];
         $skill->description = $attributes['description'];
+        $skill->user_id = Auth::id(); // Associate skill with the logged-in user
         $skill->save();
 
         return redirect('/skills/list')
-            ->with('message', 'Type has been added!');
+            ->with('message', 'Skill has been added!');
     }
 
     public function editForm(Skill $skill)
@@ -43,7 +44,6 @@ class SkillController extends Controller
 
     public function edit(Skill $skill)
     {
-
         $attributes = request()->validate([
             'name' => 'required',
             'description' => 'required',
@@ -51,14 +51,11 @@ class SkillController extends Controller
 
         $skill->name = $attributes['name'];
         $skill->description = $attributes['description'];
-
-
         $skill->save();
 
         return redirect('/skills/list')
-            ->with('message', 'skill has been edited!');
+            ->with('message', 'Skill has been edited!');
     }
-
 
     public function delete(Skill $skill)
     {

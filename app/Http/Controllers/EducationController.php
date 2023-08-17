@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Education;
 
@@ -9,7 +9,8 @@ class EducationController extends Controller
 {
     public function list()
     {
-        return view('educations.list', ['educations' => Education::all()]);
+        $educations = Education::where('user_id', Auth::id())->get();
+        return view('educations.list', ['educations' => $educations]);
     }
 
     public function addForm()
@@ -37,7 +38,7 @@ class EducationController extends Controller
         $education->description = $attributes['description'];
         $education->start_date = $attributes['start_date'];
         $education->end_date = $attributes['end_date'];
-
+        $education->user_id = Auth::id();
         $education->save();
 
         return redirect('/educations/list')

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Experience;
 
@@ -9,7 +9,8 @@ class ExperienceController extends Controller
 {
     public function list()
     {
-        return view('experiences.list', ['experiences' => Experience::all()]);
+        $experiences = Experience::where('user_id', Auth::id())->get();
+        return view('experiences.list', ['experiences' => $experiences]);
     }
 
     public function addForm()
@@ -35,7 +36,7 @@ class ExperienceController extends Controller
         $experience->description = $attributes['description'];
         $experience->start_date = $attributes['start_date'];
         $experience->end_date = $attributes['end_date'];
-
+        $experience->user_id = Auth::id();
         $experience->save();
 
         return redirect('/experiences/list')

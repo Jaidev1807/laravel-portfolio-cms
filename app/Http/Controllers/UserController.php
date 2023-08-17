@@ -6,9 +6,11 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\HasApiTokens;
 
 class UserController extends Controller
 {
+    use HasApiTokens;
     public function list()
     {
 
@@ -38,12 +40,13 @@ class UserController extends Controller
         $user->name = $attributes['name'];
         $user->email = $attributes['email'];
         $user->password = Hash::make($attributes['password']);
-        $user->verified_at = now();
+        $user->email_verified_at = now();
         $user->save();
-
+        $token = $user->createToken('api-token')->plainTextToken;
+        $token = explode('|', $token)[1];
         return redirect('/users/list')
-            ->with('message', 'User has been added!');
-
+            ->with('message', 'User has been added!')
+            ->with('token', $token);
     }
 
     public function editForm(User $user)
