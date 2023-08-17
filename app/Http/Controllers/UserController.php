@@ -38,6 +38,7 @@ class UserController extends Controller
         $user->name = $attributes['name'];
         $user->email = $attributes['email'];
         $user->password = Hash::make($attributes['password']);
+        $user->verified_at = now();
         $user->save();
 
         return redirect('/users/list')
