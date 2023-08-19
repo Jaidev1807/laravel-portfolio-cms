@@ -40,6 +40,14 @@ Route::get('/skills', function(Request $request){
 
 });
 
+Route::get('/skills/user/{user?}', function(User $user){
+    if (!$user->id) {
+        return response()->json(['error' => 'User ID not provided in the header'], 400);
+    }
+    $skills = Skill::where('user_id', $user->id)->orderBy('name')->get();
+    return $skills;
+});
+
 Route::get('/skills/{skills?}', function(Skill $skills){
     $skills[$key]['user'] = User::where('id', $skills['id'])->first();
     return $skills;
@@ -58,6 +66,14 @@ Route::get('/educations', function(Request $request){
         return $educations;
     }
 
+});
+
+Route::get('/educations/user/{user?}', function(User $user){
+    if (!$user->id) {
+        return response()->json(['error' => 'User ID not provided in the header'], 400);
+    }
+    $educations = Education::where('user_id', $user->id)->orderBy('institution')->get();
+    return $educations;
 });
 
 Route::get('/educations/{educations?}', function(Education $educations){
@@ -79,6 +95,14 @@ Route::get('/experiences', function(Request $request){
 
 });
 
+Route::get('/experiences/user/{user?}', function(User $user){
+    if (!$user->id) {
+        return response()->json(['error' => 'User ID not provided in the header'], 400);
+    }
+    $experiences = Experience::where('user_id', $user->id)->orderBy('company')->get();
+    return $experiences;
+});
+
 Route::get('/experiences/{experiences?}', function(Experience $experiences){
     $experiences = Experience::orderBy('company')->get();
     return $experiences;
@@ -97,6 +121,14 @@ Route::get('/projects', function(Request $request){
         return $projects;
     }
 
+});
+
+Route::get('/projects/user/{user?}', function(User $user){
+    if (!$user->id) {
+        return response()->json(['error' => 'User ID not provided in the header'], 400);
+    }
+    $projects = Project::where('user_id', $user->id)->orderBy('title')->get();
+    return $projects;
 });
 
 Route::get('/projects/{projects?}', function(Project $projects){
