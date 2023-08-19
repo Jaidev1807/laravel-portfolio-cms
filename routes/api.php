@@ -27,17 +27,18 @@ Route::middleware('auth:sanctum')->get('/users', function (Request $request) {
 
 // -----------------Skills------------------------- 
 
-Route::get('/skills', function(){
-    $skills = Skill::orderBy('name')->get();
+Route::get('/skills', function(Request $request){
+    $userId = $request->header('user-id'); // Assuming the header key is 'user-id'
+    
+    if (!$userId) {
+        return response()->json(['error' => 'User ID not provided in the header'], 400);
+    }
+    else{
+    $skills = Skill::where('user_id', $userId)->orderBy('name')->get();
     return $skills;
+    }
 
 });
-
-Route::get('/skills/user/{user}', function(User $user){
-    $skills = Skill::where('user_id', $user->id)->orderBy('name')->get();
-    return $skills;
-});
-
 
 Route::get('/skills/{skills?}', function(Skill $skills){
     $skills[$key]['user'] = User::where('id', $skills['id'])->first();
@@ -45,30 +46,37 @@ Route::get('/skills/{skills?}', function(Skill $skills){
 });
 
 // ----------------educations--------------------------------
-Route::get('/educations', function(){
 
-    $educations = Education::orderBy('institution')->get();
-    return $educations;
+Route::get('/educations', function(Request $request){
+    $userId = $request->header('user-id'); // Assuming the header key is 'user-id'
+    
+    if (!$userId) {
+        return response()->json(['error' => 'User ID not provided in the header'], 400);
+    }
+    else{
+        $educations = Education::where('user_id', $userId)->orderBy('institution')->get();
+        return $educations;
+    }
 
 });
-Route::get('/educations/user/{user}', function(User $user){
-    $educations = Education::where('user_id', $user->id)->orderBy('institution')->get();
-    return $educations;
-});
+
 Route::get('/educations/{educations?}', function(Education $educations){
     return $educations;
 });
 
 //------------------------experience--------------------------
 
-Route::get('/experiences', function(){
-    $experiences = Experience::orderBy('company')->get();
-    return $experiences;
-});
+Route::get('/experiences', function(Request $request){
+    $userId = $request->header('user-id'); // Assuming the header key is 'user-id'
+    
+    if (!$userId) {
+        return response()->json(['error' => 'User ID not provided in the header'], 400);
+    }
+    else{
+        $experiences = Experience::where('user_id', $userId)->orderBy('company')->get();
+        return $experiences;
+    }
 
-Route::get('/experiences/user/{user}', function(User $user){
-    $experiences = Experience::where('user_id', $user->id)->orderBy('company')->get();
-    return $experiences;
 });
 
 Route::get('/experiences/{experiences?}', function(Experience $experiences){
@@ -77,25 +85,18 @@ Route::get('/experiences/{experiences?}', function(Experience $experiences){
 });
 
 //-------------------- Projects -----------------------------
-Route::get('/projects', function(){
 
-    $projects = Project::orderBy('created_at')->get();
-
-    foreach($projects as $key => $value)
-    {
-        if($value['image'])
-        {
-            $projects[$key]['image'] = env('APP_URL').'storage/'.$value['image'];
-        }
+Route::get('/projects', function(Request $request){
+    $userId = $request->header('user-id'); // Assuming the header key is 'user-id'
+    
+    if (!$userId) {
+        return response()->json(['error' => 'User ID not provided in the header'], 400);
+    }
+    else{
+        $projects = Project::where('user_id', $userId)->orderBy('title')->get();
+        return $projects;
     }
 
-    return $projects;
-
-});
-
-Route::get('/projects/user/{user}', function(User $user){
-    $projects = Project::where('user_id', $user->id)->orderBy('name')->get();
-    return $projects;
 });
 
 Route::get('/projects/{projects?}', function(Project $projects){

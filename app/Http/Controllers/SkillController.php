@@ -9,8 +9,8 @@ class SkillController extends Controller
 {
     public function list()
     {
-        $skills = SKill::where('user_id', Auth::id())->get();
-        return view('skills.list', ['skills' => $skillss]);
+        $skills = Skill::where('user_id', Auth::id())->get();
+        return view('skills.list', ['skills' => $skills]);
     }
 
     public function addForm()
